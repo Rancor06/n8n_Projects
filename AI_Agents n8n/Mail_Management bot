@@ -50,11 +50,34 @@
       "typeVersion": 2.2,
       "position": [
         352,
-        272
+        224
       ],
       "id": "1dd920c6-199f-457a-9126-e4e606955861",
       "name": "Get many messages in Gmail",
       "webhookId": "5774a663-2600-41b6-81fc-622972942d71",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "nkXWGln713rIh8Op",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        528,
+        224
+      ],
+      "id": "bae5129b-6c0c-4b31-b733-2536cbb7a608",
+      "name": "Send a message in Gmail",
+      "webhookId": "16e54b09-2d0f-41bd-a4a7-8a2dda3c1261",
       "credentials": {
         "gmailOAuth2": {
           "id": "nkXWGln713rIh8Op",
@@ -128,6 +151,17 @@
       ]
     },
     "Get many messages in Gmail": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message in Gmail": {
       "ai_tool": [
         [
           {
