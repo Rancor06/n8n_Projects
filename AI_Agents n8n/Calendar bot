@@ -1,0 +1,163 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "updates": [
+          "message"
+        ],
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegramTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -176,
+        -128
+      ],
+      "id": "bfedf0bd-efef-4b5a-a76e-e7112cb1214b",
+      "name": "Telegram Trigger1",
+      "webhookId": "7dbbd3f5-3f70-40c7-adde-f7b51036d28a",
+      "credentials": {
+        "telegramApi": {
+          "id": "zUMiaZAhwCLS41s3",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.message.text }}",
+        "options": {
+          "systemMessage": "=Current date and time (ISO): {{ $now.toISO() }}\nUser timezone: Asia/Kolkata\n\nYou are a professional Calendar Scheduling Assistant.\n\nYour ONLY responsibility is to manage calendar events.\n\nYou can:\n- Create events\n- Update events\n- Cancel events\n- Answer basic schedule questions\n\n---------------------------------------\nCORE BEHAVIOR\n---------------------------------------\n\n- When the user requests scheduling, you MUST use the Google Calendar tool.\n- Prefer taking action over asking follow-up questions when reasonable defaults can be applied.\n- Be concise and professional.\n- Do NOT perform email summarization or unrelated tasks.\n- Stay focused strictly on calendar management.\n-Current date and time: {{ $now.toISO() }}\n-Always resolve relative dates (like \"tomorrow\", \"next Monday\") using this timestamp.\n-If the user provides a relative date (e.g., tomorrow),\nyou MUST compute the exact calendar date before creating the event.\n\n---------------------------------------\nEVENT CREATION RULES\n---------------------------------------\n\nWhen creating an event, extract:\n\n- Title (default = \"Meeting\" if not specified)\n- Date (interpret natural language like \"tomorrow\", \"next Monday\")\n- Start Time\n- End Time (default = start + 1 hour if not specified)\n- Description (if provided)\n\nAssumptions:\n\n- If calendar not specified → use the primary/default calendar.\n- If timezone not specified → assume user's local timezone.\n- If title missing → use \"Meeting\".\n- If end time missing → add 1 hour.\n\n---------------------------------------\nWHEN INFORMATION IS MISSING\n---------------------------------------\n\nONLY ask a follow-up question if:\n\n- Date is completely missing\n- OR start time is missing\n\nOtherwise, proceed with event creation.\n\nDo NOT ask for confirmation unless the request is ambiguous.\n\n---------------------------------------\nSUCCESS RESPONSE\n---------------------------------------\n\nAfter successfully creating an event, reply briefly:\n\n\"✅ Event scheduled: [Title] on [Date] at [Time].\"\n\nKeep confirmations short.\n\n---------------------------------------\nIMPORTANT RULES\n---------------------------------------\n\n- Do not hallucinate dates or times.\n- If the user gives relative dates, resolve them correctly.\n- Always use the Google Calendar tool when scheduling.\n- Stay in scheduling role at all times.\n-You MUST resolve relative dates like \"tomorrow\", \"next Monday\", etc. using the provided current date.\n-Never guess the year.\n"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        32,
+        -128
+      ],
+      "id": "ae1ae807-befb-4438-acd9-1da39af18270",
+      "name": "AI Agent1"
+    },
+    {
+      "parameters": {
+        "chatId": "={{ $('Telegram Trigger1').item.json.message.chat.id }}",
+        "text": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        336,
+        -128
+      ],
+      "id": "67ff28bf-6acb-4c23-96fa-8c0cc312b6c9",
+      "name": "Send a text message1",
+      "webhookId": "f43c6127-2678-4b4a-bceb-f25dbd7841a4",
+      "credentials": {
+        "telegramApi": {
+          "id": "zUMiaZAhwCLS41s3",
+          "name": "Telegram account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        32,
+        96
+      ],
+      "id": "a3fab392-1a67-4dcd-9579-2468d2878e22",
+      "name": "Google Gemini Chat Model1",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "pYBxa1SZUO7UJM57",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "randarchords@gmail.com",
+          "mode": "id"
+        },
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', ``, 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', ``, 'string') }}",
+        "additionalFields": {
+          "summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Summary', ``, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        176,
+        96
+      ],
+      "id": "f557a6ce-f26d-40f4-94ba-1c716828afc4",
+      "name": "Create an event in Google Calendar1",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "cZ9jV2R8QDuYoaSY",
+          "name": "Google Calendar account"
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Telegram Trigger1": {
+      "main": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent1": {
+      "main": [
+        [
+          {
+            "node": "Send a text message1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model1": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create an event in Google Calendar1": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent1",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "meta": {
+    "instanceId": "4449fddb1f7f4da3ae1f2556298a0f372df4bb3a4b4f1d87ab0eb81c18bdfd70"
+  }
+}
