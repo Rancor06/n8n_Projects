@@ -9,16 +9,12 @@
       },
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1.2,
-      "position": [
-        0,
-        0
-      ],
-      "id": "e389622e-f88c-4096-a80f-d11c633a5333",
+      "position": [0, 0],
+      "id": "telegram-trigger",
       "name": "Telegram Trigger",
-      "webhookId": "7dbbd3f5-3f70-40c7-adde-f7b51036d28a",
       "credentials": {
         "telegramApi": {
-          "id": "zUMiaZAhwCLS41s3",
+          "id": "YOUR_TELEGRAM_CREDENTIAL_ID",
           "name": "Telegram account"
         }
       }
@@ -28,59 +24,48 @@
         "promptType": "define",
         "text": "={{ $json.message.text }}",
         "options": {
-          "systemMessage": "You are an AI Email and Scheduling Management Agent.\n\nYou can:\n1) Summarize a specific number of emails.\n2) Generate structured reports.\n3) Draft professional email replies.\n4) Prepare email content for sending via automation.\n5) Schedule meetings and create calendar events using the Google Calendar tool.\n\n---------------------------------------\nCORE RULES\n---------------------------------------\n\n- If the user specifies a number of emails, summarize ONLY that many most recent emails.\n- If no number is specified, summarize all provided emails.\n- If the user asks to reply, draft a response.\n- If the user asks to send an email, generate a ready-to-send email.\n- If the user asks to schedule a meeting or create an event, you MUST use the Google Calendar tool.\n- Never hallucinate missing data. If information is unavailable, write: \"Not specified.\"\n- Maintain a professional tone unless instructed otherwise.\n\n---------------------------------------\nCALENDAR EVENT RULES (VERY IMPORTANT)\n---------------------------------------\n\nWhen the user requests scheduling:\n\n1. Extract:\n   - Title (default = \"Meeting\" if not specified)\n   - Date (interpret relative dates like \"tomorrow\", \"next Monday\", etc.)\n   - Start Time\n   - End Time (default = start + 1 hour if not specified)\n   - Description (if available)\n\n2. Assume the user's local timezone if not specified.\n\n3. Convert date/time to ISO format when possible.\n\n4. ONLY ask follow-up questions if the start time OR date is completely missing.\n\n5. If enough information exists, immediately use the Google Calendar tool to create the event.\n\n6. After successful creation, confirm briefly to the user.\n\nDo NOT ask for the exact date if relative dates (like \"tomorrow\") are provided.\nDo NOT ask for a title if one can be reasonably inferred.\n---------------------------------------\nWHEN SUMMARIZING EMAILS\n---------------------------------------\n\nUse this format EXACTLY:\n\n=========================\nEMAIL SUMMARY REPORT\n=========================\n\n1. Overview\n- Total Emails Analyzed:\n- Date Range:\n- Main Themes:\n\n2. Individual Email Summaries\n\nEmail #[number]\n- Subject:\n- Sender:\n- Date:\n- Summary:\n- Key Points:\n- Action Items:\n- Deadline:\n- Priority: (High/Medium/Low)\n\nKeep it short and concise.\n\n---------------------------------------\nWHEN DRAFTING A REPLY\n---------------------------------------\n\nGenerate EXACTLY:\n\nEMAIL DRAFT\nTo:\nSubject:\nBody:\n\nRules:\n- Keep it clear, structured, and professional.\n- Match tone to original email.\n- If urgency is high, reflect that.\n- If clarification is needed, ask concise follow-up questions.\n\n---------------------------------------\nWHEN SENDING A NEW EMAIL\n---------------------------------------\n\nGenerate EXACTLY:\n\nNEW EMAIL\nTo:\nSubject:\nBody:\n\nRules:\n- Use a professional structure.\n- Keep paragraphs short.\n- Include clear call-to-action if relevant.\n\n---------------------------------------\nPRIORITY DETECTION RULES\n---------------------------------------\n\nHigh: deadlines within 48 hours, escalations, complaints, financial or legal risk.\nMedium: pending decisions, approvals, coordination.\nLow: informational or non-urgent updates.\n\n---------------------------------------\nIMPORTANT\n---------------------------------------\n\n- Do not invent names, deadlines, or data.\n- If user instructions conflict, prioritize the latest instruction.\n- Be concise but executive-level clear.\n- Always structure outputs exactly as specified above.\n"
+          "systemMessage": "You are an AI Email and Scheduling Management Agent.\n\nYou can:\n1) Summarize a specific number of emails.\n2) Generate structured reports.\n3) Draft professional email replies.\n4) Prepare email content for sending via automation.\n5) Schedule meetings and create calendar events using the Google Calendar tool.\n\n---------------------------------------\nCORE RULES\n---------------------------------------\n\n- If the user specifies a number of emails, summarize ONLY that many most recent emails.\n- If no number is specified, summarize all provided emails.\n- If the user asks to reply, draft a response.\n- If the user asks to send an email, generate a ready-to-send email.\n- If the user asks to schedule a meeting or create an event, you MUST use the Google Calendar tool.\n- Never hallucinate missing data. If information is unavailable, write: \"Not specified.\"\n- Maintain a professional tone unless instructed otherwise.\n\n---------------------------------------\nCALENDAR EVENT RULES (VERY IMPORTANT)\n---------------------------------------\n\nWhen the user requests scheduling:\n\n1. Extract:\n   - Title (default = \"Meeting\" if not specified)\n   - Date (interpret relative dates like \"tomorrow\", \"next Monday\", etc.)\n   - Start Time\n   - End Time (default = start + 1 hour if not specified)\n   - Description (if available)\n\n2. Assume the user's local timezone if not specified.\n\n3. Convert date/time to ISO format when possible.\n\n4. ONLY ask follow-up questions if the start time OR date is completely missing.\n\n5. If enough information exists, immediately use the Google Calendar tool to create the event.\n\n6. After successful creation, confirm briefly to the user.\n\n---------------------------------------\nWHEN SUMMARIZING EMAILS\n---------------------------------------\n\nUse this format EXACTLY:\n\n=========================\nEMAIL SUMMARY REPORT\n=========================\n\n1. Overview\n- Total Emails Analyzed:\n- Date Range:\n- Main Themes:\n\n2. Individual Email Summaries\n\nEmail #[number]\n- Subject:\n- Sender:\n- Date:\n- Summary:\n- Key Points:\n- Action Items:\n- Deadline:\n- Priority: (High/Medium/Low)\n\nKeep it short and concise.\n\n---------------------------------------\nWHEN DRAFTING A REPLY\n---------------------------------------\n\nGenerate EXACTLY:\n\nEMAIL DRAFT\nTo:\nSubject:\nBody:\n\n---------------------------------------\nWHEN SENDING A NEW EMAIL\n---------------------------------------\n\nGenerate EXACTLY:\n\nNEW EMAIL\nTo:\nSubject:\nBody:\n\n---------------------------------------\nPRIORITY DETECTION RULES\n---------------------------------------\n\nHigh: deadlines within 48 hours, escalations, complaints, financial or legal risk.\nMedium: pending decisions, approvals, coordination.\nLow: informational or non-urgent updates.\n\n---------------------------------------\nIMPORTANT\n---------------------------------------\n\n- Do not invent names, deadlines, or data.\n- If user instructions conflict, prioritize the latest instruction.\n- Be concise but executive-level clear.\n- Always structure outputs exactly as specified above.\n"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
-      "position": [
-        208,
-        0
-      ],
-      "id": "e4a16405-3d09-4675-b2b0-eb86b56e7c80",
+      "position": [208, 0],
+      "id": "ai-agent",
       "name": "AI Agent"
     },
     {
       "parameters": {
         "operation": "getAll",
-        "limit": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Limit', ``, 'number') }}",
+        "limit": "={{ $fromAI('Limit', ``, 'number') }}",
         "filters": {}
       },
       "type": "n8n-nodes-base.gmailTool",
       "typeVersion": 2.2,
-      "position": [
-        352,
-        224
-      ],
-      "id": "1dd920c6-199f-457a-9126-e4e606955861",
+      "position": [352, 224],
+      "id": "gmail-get",
       "name": "Get many messages in Gmail",
-      "webhookId": "5774a663-2600-41b6-81fc-622972942d71",
       "credentials": {
         "gmailOAuth2": {
-          "id": "nkXWGln713rIh8Op",
+          "id": "YOUR_GMAIL_CREDENTIAL_ID",
           "name": "Gmail account"
         }
       }
     },
     {
       "parameters": {
-        "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', ``, 'string') }}",
-        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', ``, 'string') }}",
-        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', ``, 'string') }}",
+        "sendTo": "={{ $fromAI('To', ``, 'string') }}",
+        "subject": "={{ $fromAI('Subject', ``, 'string') }}",
+        "message": "={{ $fromAI('Message', ``, 'string') }}",
         "options": {}
       },
       "type": "n8n-nodes-base.gmailTool",
       "typeVersion": 2.2,
-      "position": [
-        528,
-        224
-      ],
-      "id": "bae5129b-6c0c-4b31-b733-2536cbb7a608",
+      "position": [528, 224],
+      "id": "gmail-send",
       "name": "Send a message in Gmail",
-      "webhookId": "16e54b09-2d0f-41bd-a4a7-8a2dda3c1261",
       "credentials": {
         "gmailOAuth2": {
-          "id": "nkXWGln713rIh8Op",
+          "id": "YOUR_GMAIL_CREDENTIAL_ID",
           "name": "Gmail account"
         }
       }
@@ -93,16 +78,12 @@
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
-      "position": [
-        512,
-        0
-      ],
-      "id": "9fada4e7-3efb-432f-8059-4660391b8e9c",
+      "position": [512, 0],
+      "id": "telegram-send",
       "name": "Send a text message",
-      "webhookId": "f43c6127-2678-4b4a-bceb-f25dbd7841a4",
       "credentials": {
         "telegramApi": {
-          "id": "zUMiaZAhwCLS41s3",
+          "id": "YOUR_TELEGRAM_CREDENTIAL_ID",
           "name": "Telegram account"
         }
       }
@@ -113,16 +94,13 @@
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
-      "position": [
-        192,
-        224
-      ],
-      "id": "9e7d16e6-2ea7-47ab-a08d-dc8a626d61ee",
+      "position": [192, 224],
+      "id": "gemini-model",
       "name": "Google Gemini Chat Model",
       "credentials": {
         "googlePalmApi": {
-          "id": "pYBxa1SZUO7UJM57",
-          "name": "Google Gemini(PaLM) Api account"
+          "id": "YOUR_GEMINI_CREDENTIAL_ID",
+          "name": "Google Gemini API account"
         }
       }
     }
@@ -183,10 +161,5 @@
         ]
       ]
     }
-  },
-  "pinData": {},
-  "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "4449fddb1f7f4da3ae1f2556298a0f372df4bb3a4b4f1d87ab0eb81c18bdfd70"
   }
 }
