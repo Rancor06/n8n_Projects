@@ -9,16 +9,12 @@
       },
       "type": "n8n-nodes-base.telegramTrigger",
       "typeVersion": 1.2,
-      "position": [
-        -224,
-        -128
-      ],
-      "id": "22ac7cd7-8454-435c-bc6f-7d8d89424638",
+      "position": [-224, -128],
+      "id": "telegram-trigger",
       "name": "Telegram Trigger",
-      "webhookId": "7dbbd3f5-3f70-40c7-adde-f7b51036d28a",
       "credentials": {
         "telegramApi": {
-          "id": "zUMiaZAhwCLS41s3",
+          "id": "YOUR_TELEGRAM_CREDENTIAL_ID",
           "name": "Telegram account"
         }
       }
@@ -28,16 +24,13 @@
         "promptType": "define",
         "text": "={{ $json.message.text }}",
         "options": {
-          "systemMessage": "You are a character transformation engine.\n\nWhen I say \"Be [character name] for me\", you must fully transform into that character.\n\nRULES:\n- Speak, think, and behave exactly like the character.\n- Match the character’s personality, tone, and speech style.\n- Stay in character at all times unless I say \"exit character\".\n- If the character has powers, abilities, or signature traits, reflect them in responses.\n- Keep responses immersive and natural, not robotic.\n- Do not explain the transformation unless I ask.\n\nIf the character is unknown or ambiguous, ask me one clarifying question before transforming.\n\n"
+          "systemMessage": "You are a character transformation engine.\n\nWhen I say \"Be [character name] for me\", you must fully transform into that character.\n\nRULES:\n- Speak, think, and behave exactly like the character.\n- Match the character’s personality, tone, and speech style.\n- Stay in character at all times unless I say \"exit character\".\n- If the character has powers, abilities, or signature traits, reflect them in responses.\n- Keep responses immersive and natural, not robotic.\n- Do not explain the transformation unless I ask.\n\nIf the character is unknown or ambiguous, ask me one clarifying question before transforming.\n"
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 3.1,
-      "position": [
-        -16,
-        -128
-      ],
-      "id": "fd7e3626-1b7a-4f69-a11f-10e4f5e51bdb",
+      "position": [-16, -128],
+      "id": "ai-agent",
       "name": "AI Agent"
     },
     {
@@ -48,16 +41,12 @@
       },
       "type": "n8n-nodes-base.telegram",
       "typeVersion": 1.2,
-      "position": [
-        288,
-        -128
-      ],
-      "id": "b3605d54-2262-432c-a21b-3eddf220d297",
+      "position": [288, -128],
+      "id": "telegram-send",
       "name": "Send a text message",
-      "webhookId": "f43c6127-2678-4b4a-bceb-f25dbd7841a4",
       "credentials": {
         "telegramApi": {
-          "id": "zUMiaZAhwCLS41s3",
+          "id": "YOUR_TELEGRAM_CREDENTIAL_ID",
           "name": "Telegram account"
         }
       }
@@ -68,16 +57,13 @@
       },
       "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
       "typeVersion": 1,
-      "position": [
-        -16,
-        128
-      ],
-      "id": "b461367c-e62f-4ae9-a154-ea2441e9769e",
+      "position": [-16, 128],
+      "id": "gemini-model",
       "name": "Google Gemini Chat Model",
       "credentials": {
         "googlePalmApi": {
-          "id": "pYBxa1SZUO7UJM57",
-          "name": "Google Gemini(PaLM) Api account"
+          "id": "YOUR_GEMINI_CREDENTIAL_ID",
+          "name": "Google Gemini API account"
         }
       }
     },
@@ -88,11 +74,8 @@
       },
       "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
       "typeVersion": 1.3,
-      "position": [
-        80,
-        128
-      ],
-      "id": "9e7b28d1-a527-4234-b37f-0cb52dce2479",
+      "position": [80, 128],
+      "id": "memory-window",
       "name": "Simple Memory"
     }
   ],
@@ -141,10 +124,5 @@
         ]
       ]
     }
-  },
-  "pinData": {},
-  "meta": {
-    "templateCredsSetupCompleted": true,
-    "instanceId": "4449fddb1f7f4da3ae1f2556298a0f372df4bb3a4b4f1d87ab0eb81c18bdfd70"
   }
 }
